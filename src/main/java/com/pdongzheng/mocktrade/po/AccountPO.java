@@ -1,8 +1,11 @@
 package com.pdongzheng.mocktrade.po;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.gitee.sunchenbin.mybatis.actable.annotation.*;
+import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.gitee.sunchenbin.mybatis.actable.annotation.IsAutoIncrement;
+import com.gitee.sunchenbin.mybatis.actable.annotation.TableCharset;
+import com.gitee.sunchenbin.mybatis.actable.annotation.TableEngine;
+import com.gitee.sunchenbin.mybatis.actable.annotation.Unique;
 import com.gitee.sunchenbin.mybatis.actable.constants.MySqlCharsetConstant;
 import com.gitee.sunchenbin.mybatis.actable.constants.MySqlEngineConstant;
 import lombok.Data;
@@ -15,20 +18,23 @@ import java.time.LocalDateTime;
 @TableEngine(MySqlEngineConstant.InnoDB)
 public class AccountPO {
 
-    @IsKey
+    @TableId(type = IdType.AUTO)
     @IsAutoIncrement
     private Long id;
-    @Column(comment = "账户编码")
+    @TableField
+    @Unique
     private String accountNo;
-    @Column(comment = "账户名称")
-    private String account_name;
-    @Column(comment = "美分")
+    @TableField
+    @Unique
+    private String accountName;
+    @TableField
     private Long balance;
-    @Column(comment = "账户描述")
-    @DefaultValue(value = "")
-    private String account_desc;
-    @DefaultValue(value ="CURRENT_TIMESTAMP" )
+    @TableField
+    private String accountDesc;
+    @TableField(fill = FieldFill.INSERT)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
-    @DefaultValue(value ="CURRENT_TIMESTAMP" )
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
 }
