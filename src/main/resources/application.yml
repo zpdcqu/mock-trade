@@ -7,7 +7,7 @@ spring:
 
 
 mybatis-plus:
-  mapper-locations: classpath:mappers/*.xml,classpath*:com/gitee/sunchenbin/mybatis/actable/mapping/*/*.xml
+  mapper-locations: classpath:mapper/*.xml,classpath*:com/gitee/sunchenbin/mybatis/actable/mapping/*/*.xml
 
 # 配置根据实体类自动生成数据库表
 mybatis:

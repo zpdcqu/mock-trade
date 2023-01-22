@@ -10,7 +10,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@Table(value = "account", comment = "账户",isSimple = true)
+@TableName("account")
 @TableCharset(MySqlCharsetConstant.UTF8)
 @TableEngine(MySqlEngineConstant.InnoDB)
 public class AccountPO {
@@ -18,14 +18,17 @@ public class AccountPO {
     @IsKey
     @IsAutoIncrement
     private Long id;
-    @Column
-    private String name;
-    @Column
+    @Column(comment = "账户编码")
+    private String accountNo;
+    @Column(comment = "账户名称")
+    private String account_name;
+    @Column(comment = "美分")
     private Long balance;
-    @Column
-    private String desc;
-    @Column
+    @Column(comment = "账户描述")
+    @DefaultValue(value = "")
+    private String account_desc;
+    @DefaultValue(value ="CURRENT_TIMESTAMP" )
     private LocalDateTime createTime;
-    @Column
+    @DefaultValue(value ="CURRENT_TIMESTAMP" )
     private LocalDateTime updateTime;
 }
