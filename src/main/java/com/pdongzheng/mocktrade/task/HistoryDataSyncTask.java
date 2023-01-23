@@ -2,9 +2,7 @@ package com.pdongzheng.mocktrade.task;
 
 
 import cn.hutool.core.date.LocalDateTimeUtil;
-import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONUtil;
 import com.binance.connector.futures.client.impl.UMFuturesClientImpl;
@@ -57,13 +55,18 @@ public class HistoryDataSyncTask {
         parameters.put("limit", limit);
         parameters.put("interval", symbolPO.getTimeframe().getCode());
         while (startTime.isBefore(LocalDateTime.now())) {
-            parameters.put("startTime",startTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli());
-            parameters.put("endTime", startTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli()+ limit * symbolPO.getTimeframe().getSecond() * 1000);
+            parameters.put("startTime", startTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli());
+            parameters.put("endTime", startTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli() + limit * symbolPO.getTimeframe().getSecond() * 1000L);
             String result = umFuturesClient.market().klines(parameters);
             List<KlinePO> klinePOS = parseData(result, symbolPO.getSymbol(), symbolPO.getTimeframe());
             markPriceKlineService.saveBatch(klinePOS);
+            log.info("保存 {} k线数据,开始时间 {}，结束时间 {}，共 {} 条", symbolPO.getSymbol() + " " + symbolPO.getTimeframe().getDesc(),
+                    LocalDateTimeUtil.formatNormal(startTime),
+                    LocalDateTimeUtil.formatNormal(startTime.plusSeconds((long) limit * symbolPO.getTimeframe().getSecond())),
+                    klinePOS.size());
             startTime = startTime.plusNanos(limit * symbolPO.getTimeframe().getSecond() * 1000L);
         }
+        log.info("保存 {} k线数据,已经是最新", symbolPO.getSymbol() + " " + symbolPO.getTimeframe().getDesc());
     }
 
     private List<KlinePO> parseData(String res, String symbol, Timeframe timeframe) {
