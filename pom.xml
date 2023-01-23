@@ -59,6 +59,15 @@
             <artifactId>hutool-all</artifactId>
             <version>5.8.11</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.binance</groupId>
+            <artifactId>binance-futures-connector-java</artifactId>
+            <version>2.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>

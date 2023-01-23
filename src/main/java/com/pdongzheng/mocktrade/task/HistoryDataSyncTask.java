@@ -22,11 +22,11 @@ public class HistoryDataSyncTask {
 
     @Scheduled(fixedRate = 300000)
     public void doExecTask() {
+        ThreadUtil.sleep(RandomUtil.randomInt(0, 60000));
         List<SymbolPO> symbolList = symbolService.list();
         log.info("开始同步：一共{}条", symbolList.size());
         for (SymbolPO symbolPO : symbolList) {
             log.info("正在同步：{}", JSONUtil.toJsonStr(symbolPO));
         }
-        ThreadUtil.sleep(RandomUtil.randomInt(0, 60000));
     }
 }
