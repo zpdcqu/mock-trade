@@ -31,5 +31,5 @@ git pull
 echo '更新代码成功'
 mvn package -Dmaven.test.skip=true
 echo '打包成功'
-nohup java -jar target/*.jar &
+nohup java -jar -Xms20m -Xmx256m target/*.jar --spring.datasource.url=jdbc:mysql://127.0.0.1:3306/trading &
 tail -f nohup.out
