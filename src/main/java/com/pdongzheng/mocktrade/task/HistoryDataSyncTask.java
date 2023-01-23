@@ -64,7 +64,7 @@ public class HistoryDataSyncTask {
                     LocalDateTimeUtil.formatNormal(startTime),
                     LocalDateTimeUtil.formatNormal(startTime.plusSeconds((long) limit * symbolPO.getTimeframe().getSecond())),
                     klinePOS.size());
-            startTime = startTime.plusNanos(limit * symbolPO.getTimeframe().getSecond() * 1000L);
+            startTime = klinePOS.get(klinePOS.size()-1).getCloseTime();
         }
         log.info("保存 {} k线数据,已经是最新", symbolPO.getSymbol() + " " + symbolPO.getTimeframe().getDesc());
     }
